@@ -1,0 +1,38 @@
+var wildTrail = 
+{
+"sancname":"Pench National Park",
+"checkin":"10-Dec-2018",
+"checkout":"12-Dec-2018",
+"roomcombo":[  
+   {  
+      "adults":2,
+      "kids":1,
+      "infants":1
+   }
+  
+],
+"safarilst":[  
+   {  
+      "date":"10-Dec-2018",
+      "session":"evening",
+      "type":"Regular-Excluisve Gypsy"
+   },
+   {  
+      "date":"11-Dec-2018",
+      "session":"morning",
+      "type":"Regular-Excluisve Gypsy"
+   },
+   {  
+      "date":"11-Dec-2018",
+      "session":"evening",
+      "type":"Regular-Excluisve Gypsy"
+   },
+   {  
+      "date":"12-Dec-2018",
+      "session":"morning",
+      "type":"Regular-Excluisve Gypsy"
+   }
+],
+"resorttype":"Budget",
+"TotalCost": 245000
+}

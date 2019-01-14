@@ -1,0 +1,122 @@
+<html>
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.js"></script>
+  	<script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+	<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+
+<script type="text/babel">
+//Simple React Login Form
+//CodePen : https://codepen.io/anon/pen/EGOGaR
+
+
+const Welcome = ({user, onSignOut})=> {
+  // This is a dumb "stateless" component
+  return (
+    <div>
+      Welcome <strong>{user.username}</strong>!
+      <br/><hr/><br/>
+      <br/><hr/><br/>
+      <br/><hr/><br/>
+      <a href="javascript:alert('Bye  Bye!');" onClick={onSignOut}>Sign out</a>
+      <br/><hr/><br/>
+
+    </div>
+  )
+}
+
+class LoginForm extends React.Component {
+  
+  // Using a class based component here because we're accessing DOM refs
+ 
+  handleSignIn(e) {
+    e.preventDefault()
+    let username = this.refs.username.value
+    let password = this.refs.password.value
+    this.props.onSignIn(username, password)
+  }
+  
+  render() {
+    return (
+      <form onSubmit={this.handleSignIn.bind(this)}>
+        <h3>Sign in</h3>
+        <input type="text" ref="username" placeholder="enter you username" />
+        <input type="password" ref="password" placeholder="enter password" />
+        <input type="submit" value="Login" />
+      </form>
+    )
+  }
+
+}
+
+
+class App extends React.Component {
+  
+  constructor(props) {
+    super(props)
+    // the initial application state
+    this.state = {
+      user: null
+    }
+  }
+  
+  // App "actions" (functions that modify state)
+  signIn(username, password) {
+    // This is where you would call Firebase, an API etc...
+    // calling setState will re-render the entire app (efficiently!)
+    this.setState({
+      user: {
+        username,
+        password,
+      }
+    })
+  }
+  
+  signOut() {
+    // clear out user from state
+    this.setState({user: null})
+  }
+  
+  render() {
+    // Here we pass relevant state to our child components
+    // as props. Note that functions are passed using `bind` to
+    // make sure we keep our scope to App
+    return (
+      <div>
+        <h1>Welcome To Wild Trails Life! </h1>
+        { 
+          (this.state.user) ? 
+            <Welcome 
+             user={this.state.user} 
+             onSignOut={this.signOut.bind(this)} 
+            />
+          :
+            <LoginForm 
+             onSignIn={this.signIn.bind(this)} 
+            />
+        }
+      </div>
+    )
+    
+  }
+  
+}
+
+
+
+function afterRender(){
+ReactDOM.render(<App/>, document.getElementById("app"))
+}
+
+
+
+
+
+</script>
+</head>
+
+<body onLoad="afterRender()">
+<div id="app"></div>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<html>
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.js"></script>
+  <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+
+	<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+  <style>
+#app {
+  background: #a2b9bc;
+}
+
+#quote-box {
+  /* center on screen */
+  position: fixed;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+  body {
+    background: #a2b9bc;
+  }
+
+  #app {
+  }
+
+  #quote-box {
+    /* center on screen */
+    position: fixed;
+    display: inline-block;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+
+    margin: auto;
+
+    /* look and feel */
+    width: auto;
+    height: auto;
+    border-radius: 4px;
+    background: #6b5b95;
+
+    /* behaviour */
+    display: grid;
+    grid-template-rows: 6fr 2fr 1fr;
+  }
+
+  blockquote {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    font-style: italic;
+    margin: 0.25em 0;
+    padding: 0.35em 40px;
+    line-height: 1.45;
+    position: relative;
+    color: #383838;
+  }
+
+  blockquote:before {
+    display: block;
+    padding-left: 10px;
+    content: "\201C";
+    font-size: 80px;
+    position: absolute;
+    left: -5px;
+    top: -20px;
+    color: #7a7a7a;
+  }
+
+  blockquote cite {
+    color: #999999;
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+  }
+
+  blockquote cite:before {
+    content: "\2014 \2009";
+  }
+
+  #action {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  button {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #6b5b95;
+    border: none;
+    color: white;
+    outline: none;
+  }
+
+  button:hover {
+    color: #6b5b95;
+    background-color: white;
+    border: none;
+  }
+
+  a.button {
+    appearance: button;
+
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 3em;
+    cursor: pointer;
+    background-color: #6b5b95;
+    color: white;
+  }
+
+  a.button:hover {
+    color: #6b5b95;
+    background-color: white;
+  }
+
+  margin: auto;
+
+  /* look and feel */
+  width: auto;
+  height: auto;
+  border-radius: 4px;
+  background: #6b5b95;
+
+  /* behaviour */
+  display: grid;
+  grid-template-rows: auto auto 5px;
+}
+
+blockquote {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  margin: 0.25em 0;
+  padding: 0.35em 40px;
+  line-height: 1.45;
+  position: relative;
+  color: #383838;
+}
+
+blockquote:before {
+  display: block;
+  padding-left: 10px;
+  content: "\201C";
+  font-size: 80px;
+  position: absolute;
+  left: -5px;
+  top: -20px;
+  color: #7a7a7a;
+}
+
+blockquote cite {
+  color: #999999;
+  font-size: 14px;
+  display: block;
+  margin-top: 5px;
+}
+
+blockquote cite:before {
+  content: "\2014 \2009";
+}
+
+#action {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+button {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #6b5b95;
+  border: none;
+  color: white;
+  outline: none;
+}
+
+button:hover {
+  color: #6b5b95;
+  background-color: white;
+  border: none;
+}
+
+a.button {
+  appearance: button;
+
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 3em;
+  cursor: pointer;
+  background-color: #6b5b95;
+  color: white;
+}
+
+a.button:hover {
+  color: #6b5b95;
+  background-color: white;
+}
+
+  </style>
+	
+	<script type="text/babel">
+//FCC Random Quote Generator that can be sent to twitter for markings...
+//Codepen : https://codepen.io/anon/pen/MZzLXN
+const quotes = [
+  {
+    quote: "Don't cry because it's over, smile because it happened.",
+    author: "Dr. Seuss"
+  },
+  {
+    quote: "You only live once, but if you do it right, once is enough.",
+    author: "Mae West"
+  },
+  {
+    quote: "Be yourself; everyone else is already taken.",
+    author: "Oscar Wilde"
+  },
+  {
+    quote:
+    "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.",
+    author: "Albert Einstein"
+  },
+  { quote: "So many books, so little time.", author: "Frank Zappa" },
+  {
+    quote: "A room without books is like a body without a soul.",
+    author: "Marcus Tullius Cicero"
+  },
+  {
+    quote:
+    "If you want to know what a man's like, take a good look at how he treats his inferiors, not his equals.",
+    author: "J.K. Rowling"
+  }
+];
+
+const getRandomInt = function(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+};
+
+const Text = props => {
+  return <div id="text">{props.text}</div>;
+};
+
+const Author = props => {
+  return <span id="author">{props.text}</span>;
+};
+
+const Tweet = props => {
+  return (
+    <a
+      id="tweet-quote"
+      className="button"
+      href={"https://www.twitter.com/intent/tweet".concat(props.tweet)}
+      target="_blank"
+      >
+      <i className="fab fa-twitter"></i>
+    </a>
+  );
+};
+
+class Button extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleClick = () => {
+    console.log("Click happened in Button");
+    this.props.handleClick();
+  };
+
+render() {
+  return (
+    <button onClick={this.handleClick} type="button" id="new-quote">
+      {this.props.children}
+    </button>
+  );
+}
+}
+
+class QuoteBox extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      quote: this.props.quote,
+      author: this.props.author
+    };
+  }
+
+  handleClick = () => {
+    console.log("Click handled by QuoteBox");    
+    let index = getRandomInt(quotes.length);
+    do {
+      index = getRandomInt(quotes.length);
+    }
+    while (this.state.quote === quotes[index].quote)
+             
+    this.setState(prevState => ({
+      quote: quotes[index].quote,
+      author: quotes[index].author
+    }));
+  };
+
+render() {
+  return (
+    <div id="quote-box">
+      <blockquote>
+        <Text text={this.state.quote} />
+        <cite>
+          <Author text={this.state.author} />
+        </cite>
+      </blockquote>
+
+      <div id="action">
+        <Tweet
+          tweet={encodeURI(
+            "?hashtags=quotes&related=freeCodeCamp&text="
+            .concat(this.state.quote)
+            .concat(" ")
+            .concat(this.state.author)
+          )}
+          />
+        <Button handleClick={this.handleClick}>New quote</Button>
+      </div>
+    </div>
+  );
+}
+}
+
+class Quote extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <QuoteBox
+        quote="There is nothing better than a friend, unless it is a friend with chocolate."
+        author="Linda Grayson"
+        />
+    );
+  }
+}
+function afterRender(){
+ReactDOM.render(<Quote />, document.getElementById("app"));
+}
+
+	</script>
+</head>
+<body onLoad="afterRender()">
+<div id="app"></div>
+</body>
+</html>
